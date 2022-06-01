@@ -1,0 +1,45 @@
+import os
+
+os.chdir(r"C:\Users\rajes\PycharmProjects")
+
+import openpyxl as op
+
+wb = op.load_workbook("Jobdetails.xlsx")
+sheet = wb["Sheet1"]
+row_count= sheet.max_row
+column_count = sheet.max_column
+print(column_count)
+names = []
+for item in range(2,row_count+1):
+    names.append(sheet.cell(item,1).value)
+print(names)
+salary=[]
+for item in range(2,row_count+1):
+    salary.append(sheet.cell(item, 2).value)
+print(salary)
+tax =[]
+for item in salary:
+    if item>1000000:
+        reduction = 0.30*item +100000
+        tax_payable =reduction
+        tax.append(tax_payable)
+
+    elif item>500000:
+        reduction = 0.20*item +50000
+        tax_payable =reduction
+        tax.append(tax_payable)
+
+    elif item > 200000:
+        reduction = 0.10 * item
+        tax_payable = reduction
+        tax.append(tax_payable)
+
+    else:
+        reduction = 0
+        tax_payable = reduction
+        tax.append(tax_payable)
+print(tax)
+sheet.cell(1,3).value = "tax impossed"
+for item in range(len(tax)):
+    sheet.cell(item+2,3).value=tax[item]
+wb.save("Jobdetails.xlsx")
